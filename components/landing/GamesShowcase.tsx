@@ -11,7 +11,7 @@ const games = [
     teamSize: 5,
     maxTeams: 64,
     fee: 150000,
-    image: 'https://cdn.moonton.com/mgamecps/official/news/2021/01/05/mlbb-keyart.png',
+    image: 'https://play-lh.googleusercontent.com/0gB6KEvQzyQXS6Uscx7HNjjlRMRUzEvYFqWr0TlmwHw6cw3nNRNSR9xChp-EUrk3Cq1lqTlsE1DbPgc97YClXVU=w480-h960-rw',
   },
   {
     name: 'VALORANT',
