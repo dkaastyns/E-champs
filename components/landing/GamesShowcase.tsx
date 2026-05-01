@@ -20,7 +20,7 @@ const games = [
     teamSize: 5,
     maxTeams: 32,
     fee: 200000,
-    image: 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt8a3b4a9c268e4b3c/5f6b42b9c5e9a55c5e9a5f6b/val-ep4-act3-1920x1080.jpg',
+    image: 'https://assets.xboxservices.com/assets/36/b5/36b52fa8-e71b-4435-888a-cecb98d3876a.jpg?n=153142244433_GLP-Page-Hero-0_1083x1222_02.jpg',
   },
   {
     name: 'PUBG MOBILE',
