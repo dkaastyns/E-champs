@@ -82,9 +82,9 @@ export default function LoginPage() {
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-8">
           <h2 className="text-2xl font-bold text-white mb-6">Sign In</h2>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email" className="text-sm font-medium text-white">Email</FieldLabel>
               <Input
                 id="email"
                 type="email"
@@ -101,7 +101,7 @@ export default function LoginPage() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="password" className="text-sm font-medium text-white">Password</FieldLabel>
               <Input
                 id="password"
                 type="password"
