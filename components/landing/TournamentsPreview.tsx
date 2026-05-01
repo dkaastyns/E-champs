@@ -33,12 +33,12 @@ const upcomingTournaments = [
 
 export function TournamentsPreview() {
   return (
-    <section id="tournaments" className="py-24 bg-[#080808]">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+    <section id="tournaments" className="py-16 sm:py-24 bg-[#080808]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4 sm:gap-6">
           <div>
-            <span className="text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">UPCOMING</span>
-            <h2 className="font-[family-name:var(--font-display)] text-6xl md:text-8xl text-white uppercase leading-none mt-2">
+            <span className="text-[#2BE900] text-xs sm:text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">UPCOMING</span>
+            <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-white uppercase leading-none mt-2">
               TOURNAMENTS
             </h2>
           </div>
@@ -52,16 +52,16 @@ export function TournamentsPreview() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {upcomingTournaments.map((tournament, index) => (
+          <div
+            key={tournament.id}
+            className="relative group"
+          >
             <div
-              key={tournament.id}
-              className="relative group"
+              className="relative bg-[#0d0d0d] border border-[#1a1a1a] p-4 sm:p-6 overflow-hidden"
+              style={{
+                clipPath: 'polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%)',
+              }}
             >
-              <div
-                className="relative bg-[#0d0d0d] border border-[#1a1a1a] p-6 overflow-hidden"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%)',
-                }}
-              >
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
                   style={{

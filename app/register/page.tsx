@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -71,6 +72,15 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-[#080808] flex items-center justify-center px-4">
+      {/* Back to Home Button - Mobile only */}
+      <Link 
+        href="/" 
+        className="sm:hidden absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+      >
+        <CaretLeft size={20} />
+        <span className="text-sm font-medium">Back to Home</span>
+      </Link>
+
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Image

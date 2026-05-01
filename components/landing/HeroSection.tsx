@@ -36,72 +36,79 @@ export function HeroSection() {
 
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6520EE]/30 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <div className="inline-flex items-center gap-2 mb-8">
+      {/* Mobile: Clean dark background with accent glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden lg:hidden">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-[#6520EE]/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-0 w-[200px] h-[200px] bg-[#2BE900]/10 rounded-full blur-[80px]" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-12 lg:pt-32 pb-28 sm:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-140px)] lg:min-h-0">
+          <div className="relative flex flex-col justify-center py-8 lg:py-0">
+            <div className="inline-flex items-center gap-2 mb-6 sm:mb-8">
               <span className="w-2 h-2 bg-[#2BE900] rounded-full animate-pulse" />
-              <span className="text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">REGISTRATION OPEN</span>
+              <span className="text-[#2BE900] text-xs sm:text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">REGISTRATION OPEN</span>
             </div>
 
-            <h1 className="font-[family-name:var(--font-display)] text-[120px] md:text-[180px] lg:text-[220px] leading-[0.85] tracking-tight text-white uppercase">
+            <h1 className="font-[family-name:var(--font-display)] text-[64px] sm:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[220px] leading-[0.85] tracking-tight text-white uppercase">
               <span className="block">PLAY</span>
               <span className="block text-[#6520EE]">FOR</span>
               <span className="block relative">
                 PURPOSE
-                <span className="absolute -bottom-2 left-0 w-full h-2 bg-[#2BE900]" />
+                <span className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-1 sm:h-2 bg-[#2BE900]" />
               </span>
             </h1>
 
-            <p className="font-[family-name:var(--font-body)] text-gray-400 text-lg max-w-md mt-8 mb-10">
+            <p className="font-[family-name:var(--font-body)] text-gray-400 text-lg sm:text-lg max-w-md mt-8 sm:mt-8 mb-10 sm:mb-10">
               Join the ultimate esports tournament platform. Register your team,
               compete against the best, and claim your victory.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-4">
               <Link
                 href="/tournaments"
-                className="inline-flex items-center justify-center bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-8 py-4 rounded-none transition-all text-lg font-[family-name:var(--font-heading)]"
+                className="inline-flex items-center justify-center bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 sm:px-8 py-4 sm:py-4 rounded-none transition-all text-base sm:text-lg font-[family-name:var(--font-heading)]"
               >
                 BROWSE TOURNAMENTS
               </Link>
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center border-2 border-[#2BE900] text-[#2BE900] hover:bg-[#2BE900] hover:text-black font-bold px-8 py-4 rounded-none transition-all text-lg font-[family-name:var(--font-heading)]"
+                className="inline-flex items-center justify-center border-2 border-[#2BE900] text-[#2BE900] hover:bg-[#2BE900] hover:text-black font-bold px-6 sm:px-8 py-4 sm:py-4 rounded-none transition-all text-base sm:text-lg font-[family-name:var(--font-heading)]"
               >
                 CREATE ACCOUNT
               </Link>
             </div>
           </div>
 
-          <div className="relative h-[600px] lg:h-[800px]">
+          {/* Hero Image - Only on desktop */}
+          <div className="hidden lg:block relative h-[600px] xl:h-[800px]">
             <Image
               src="/hero-character.jpg"
               alt="Gaming Warrior"
               fill
+              sizes="(max-width: 1024px) 0vw, 50vw"
               className="object-contain object-right"
               priority
             />
-
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#080808]" />
           </div>
         </div>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 bg-[#0d0d0d] border-t border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-3 gap-8">
-            <div className="flex items-baseline gap-2">
-              <span className="font-[family-name:var(--font-display)] text-4xl text-white">05</span>
-              <span className="text-gray-500 text-sm font-[family-name:var(--font-body)]">GAME TITLES</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+          <div className="grid grid-cols-3 gap-4 sm:gap-8">
+            <div className="flex items-center sm:items-baseline justify-center sm:justify-start gap-2">
+              <span className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl text-white">05</span>
+              <span className="text-gray-500 text-xs sm:text-sm font-[family-name:var(--font-body)]">GAME TITLES</span>
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-[family-name:var(--font-display)] text-4xl text-[#2BE900]">{formatCompact(500000000)}</span>
-              <span className="text-gray-500 text-sm font-[family-name:var(--font-body)]">PRIZE POOL</span>
+            <div className="flex items-center sm:items-baseline justify-center sm:justify-start gap-2">
+              <span className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl text-[#2BE900]">{formatCompact(500000000)}</span>
+              <span className="text-gray-500 text-xs sm:text-sm font-[family-name:var(--font-body)]">PRIZE POOL</span>
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-[family-name:var(--font-display)] text-4xl text-[#6520EE]">192</span>
-              <span className="text-gray-500 text-sm font-[family-name:var(--font-body)]">TEAM SLOTS</span>
+            <div className="flex items-center sm:items-baseline justify-center sm:justify-start gap-2">
+              <span className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl text-[#6520EE]">192</span>
+              <span className="text-gray-500 text-xs sm:text-sm font-[family-name:var(--font-body)]">TEAM SLOTS</span>
             </div>
           </div>
         </div>
