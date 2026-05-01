@@ -29,7 +29,7 @@ const games = [
     teamSize: 4,
     maxTeams: 48,
     fee: 100000,
-    image: 'https://www.pubgmobile.com/images/event/keyart.jpg',
+    image: 'https://play-lh.googleusercontent.com/bqliWUqt7QfpSC4EybIXMT_QZclpYN9ANItoMTXltshu8v0HTnFdfU_pboHzz7Zs7pqX1AfLE7eFVU8S0aSI',
   },
   {
     name: 'DOTA 2',
