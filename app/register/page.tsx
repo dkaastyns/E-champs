@@ -91,9 +91,9 @@ export default function RegisterPage() {
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-8">
           <h2 className="text-2xl font-bold text-white mb-6">Create Account</h2>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <Field>
-              <FieldLabel htmlFor="name">Team Captain Name</FieldLabel>
+              <FieldLabel htmlFor="name" className="text-sm font-medium text-white">Team Captain Name</FieldLabel>
               <Input
                 id="name"
                 type="text"
@@ -107,7 +107,7 @@ export default function RegisterPage() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email" className="text-sm font-medium text-white">Email</FieldLabel>
               <Input
                 id="email"
                 type="email"
@@ -121,7 +121,7 @@ export default function RegisterPage() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="confirmPassword" className="text-sm font-medium text-white">Confirm Password</FieldLabel>
               <Input
                 id="password"
                 type="password"
@@ -135,7 +135,7 @@ export default function RegisterPage() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+              <FieldLabel htmlFor="confirmPassword" className="text-sm font-medium text-white">Confirm Password</FieldLabel>
               <Input
                 id="confirmPassword"
                 type="password"
