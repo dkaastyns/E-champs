@@ -398,13 +398,13 @@ async function seedTeams(
 					}),
 				);
 
-				for (const member of members) {
-					await client.query(
-						`INSERT INTO team_members ("teamId", "name", "gameId", "role", "isCaptain")
+			for (const member of members) {
+				await client.query(
+					`INSERT INTO team_members ("teamId", "nickname", "gameId", "role", "isCaptain")
              VALUES ($1, $2, $3, $4, $5)`,
-						[teamId, member.name, member.gameId, member.role, member.isCaptain],
-					);
-				}
+					[teamId, member.name, member.gameId, member.role, member.isCaptain],
+				);
+			}
 
 				console.log(
 					`   Created team: ${teamName} (${config.status}, cat=${config.categorySlug})`,
@@ -448,7 +448,7 @@ async function seedTeams(
 
 			// Insert withdrawn team members
 			await client.query(
-				`INSERT INTO team_members ("teamId", "name", "gameId", "role", "isCaptain")
+				`INSERT INTO team_members ("teamId", "nickname", "gameId", "role", "isCaptain")
          VALUES ($1, $2, $3, $4, $5)`,
 				[result.rows[0].id, "Retired Player", "retired_1", "Carry", false],
 			);

@@ -11,6 +11,7 @@
 ## Features
 
 ### For Tournament Organizers
+
 - **Tournament Creation**: Configure team size, max teams, entry fees, and schedules
 - **Payment Verification**: Review and approve payment proofs with admin dashboard
 - **Bracket Management**: Automatic double-elimination bracket generation
@@ -18,6 +19,7 @@
 - **User Management**: Promote users to admin or ban accounts
 
 ### For Participants
+
 - **Tournament Discovery**: Browse available tournaments with filtering
 - **Team Registration**: Register teams with payment proof upload
 - **Bracket Visualization**: Interactive double-elimination bracket view
@@ -25,6 +27,7 @@
 - **Profile Management**: Update personal information and view tournament history
 
 ### Technical Highlights
+
 - **Role-Based Access Control**: Secure admin/user separation with middleware
 - **Real-time Updates**: Optimistic updates with React Query cache invalidation
 - **Type-Safe API**: Comprehensive TypeScript interfaces across the stack
@@ -34,6 +37,7 @@
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 16 (App Router) with React 19
 - **Language**: TypeScript 5 (strict mode)
 - **Styling**: Tailwind CSS 4 + shadcn/ui components
@@ -43,6 +47,7 @@
 - **Bracket Visualization**: @g-loot/react-tournament-brackets
 
 ### Backend
+
 - **Runtime**: Node.js / Bun
 - **Authentication**: Better Auth with PostgreSQL adapter
 - **Database**: PostgreSQL (Neon cloud database)
@@ -50,6 +55,7 @@
 - **API**: Next.js App Router API routes
 
 ### Development Tools
+
 - **Package Manager**: Bun
 - **Linting**: ESLint with Next.js presets
 - **Type Checking**: TypeScript strict mode
@@ -77,7 +83,7 @@ bun install
 
 ### 3. Environment Setup
 
-Create a `.env.local` file in the project root:
+Create a `.env` file in the project root:
 
 ```env
 # Database
@@ -86,9 +92,6 @@ DATABASE_URL="postgresql://username:password@host:port/database"
 # Better Auth
 BETTER_AUTH_SECRET="your-secret-key-here"
 BETTER_AUTH_URL="http://localhost:3000"
-
-# Optional: For production
-NEXT_PUBLIC_APP_URL="https://your-domain.com"
 ```
 
 ### 4. Database Setup
@@ -192,6 +195,7 @@ e-champs/
 This project follows strict development patterns documented in `.agents/rules/`:
 
 ### API Layer Pattern
+
 - All HTTP requests are centralized in `/lib/api/`
 - Type-safe interfaces for all inputs and outputs
 - Consistent error handling across all API functions
@@ -199,40 +203,45 @@ This project follows strict development patterns documented in `.agents/rules/`:
 - Barrel exports via `index.ts`
 
 ### Component Architecture
+
 - **Server Components by default**: Use for data fetching, SEO, and static content
 - **Client Components for interactivity**: Mark with `'use client'` directive
 - Clear separation in file organization
 - Route groups for related pages: `(main)` for users, `admin` for administrators
 
 ### Database Patterns
+
 - Use the connection pool from `/lib/db.ts`
 - SQL migrations in `/db/migrations/`
 - Run migrations with `bun run db:migrate`
 
 ### Authentication
+
 - Better Auth configured in `/lib/auth.ts` (server) and `/lib/auth-client.ts` (client)
 - Admin plugin enabled for role-based access
 - Protected routes use middleware for authentication checks
 
 ### Cache Management
+
 - Use React Query with custom hooks in `/lib/hooks/`
 - Centralized query keys in `/lib/query-keys.ts`
 - Automatic cache invalidation on mutations
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start development server with hot reload |
-| `bun run build` | Create production build |
-| `bun run start` | Start production server |
-| `bun run lint` | Run ESLint |
-| `bun run db:migrate` | Run database migrations |
-| `bun run db:seed` | Seed database with sample data |
+| Command              | Description                              |
+| -------------------- | ---------------------------------------- |
+| `bun dev`            | Start development server with hot reload |
+| `bun run build`      | Create production build                  |
+| `bun run start`      | Start production server                  |
+| `bun run lint`       | Run ESLint                               |
+| `bun run db:migrate` | Run database migrations                  |
+| `bun run db:seed`    | Seed database with sample data           |
 
 ## API Endpoints
 
 ### Tournaments
+
 - `GET /api/tournaments` - List all tournaments
 - `GET /api/tournaments/[id]` - Get tournament details
 - `POST /api/tournaments` - Create tournament (admin)
@@ -240,56 +249,40 @@ This project follows strict development patterns documented in `.agents/rules/`:
 - `DELETE /api/tournaments/[id]` - Delete tournament (admin)
 
 ### Teams
+
 - `GET /api/teams` - List teams
 - `POST /api/teams` - Register team
 - `PUT /api/teams/[id]/verify` - Verify payment (admin)
 - `DELETE /api/teams/[id]` - Withdraw team
 
 ### Matches
+
 - `GET /api/matches` - List matches
 - `GET /api/matches/[id]` - Get match details
 - `PUT /api/matches/[id]` - Update match result (admin)
 
 ### Brackets
+
 - `GET /api/brackets/[tournamentId]` - Get tournament bracket
 - `POST /api/brackets/[tournamentId]/generate` - Generate bracket (admin)
 
 ### Admin
+
 - `GET /api/admin/users` - List all users
 - `PUT /api/admin/users/[id]/role` - Update user role
 - `DELETE /api/admin/spam` - Clean up spam data
 
 ## Contributing
 
-1. Fork the repository
+1. Clone the repository
 2. Create a feature branch: `git checkout -b feature/your-feature`
 3. Commit your changes: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin feature/your-feature`
 5. Open a Pull Request
 
 Please ensure:
+
 - TypeScript strict mode passes
 - ESLint checks pass
 - Follow the existing code patterns
 - Update documentation for new features
-
-## Roadmap
-
-- [ ] Match streaming integration
-- [ ] Prize pool tracking
-- [ ] Tournament templates
-- [ ] Analytics dashboard
-- [ ] Mobile app (React Native)
-- [ ] Internationalization (i18n)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, email support@echamps.com or join our Discord community.
-
----
-
-**Built with passion for esports** 🎮
