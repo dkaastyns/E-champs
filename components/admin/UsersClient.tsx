@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { usePromoteUser, useBanUser } from '@/lib/hooks';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -114,12 +115,13 @@ export default function UsersClient({ users: initialUsers }: { users: AdminUser[
   const dialogContent = getDialogContent();
 
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div>
         <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase">USERS</h1>
         <p className="font-[family-name:var(--font-body)] text-gray-400 mt-2">Manage user accounts.</p>
       </div>
 
+      <RevealOnScroll delay={100}>
       <div className="bg-[#0d0d0d] border border-[#1a1a1a] overflow-hidden">
         <table className="w-full">
           <thead>
@@ -195,11 +197,14 @@ export default function UsersClient({ users: initialUsers }: { users: AdminUser[
           </tbody>
         </table>
       </div>
+      </RevealOnScroll>
 
       {initialUsers.length === 0 && (
+        <RevealOnScroll delay={200}>
         <div className="text-center py-12 bg-[#0d0d0d] border border-[#1a1a1a]">
           <p className="text-gray-400">No users found.</p>
         </div>
+        </RevealOnScroll>
       )}
 
       <AlertDialog open={dialog.isOpen} onOpenChange={(open) => !open && closeDialog()}>
@@ -234,6 +239,6 @@ export default function UsersClient({ users: initialUsers }: { users: AdminUser[
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </PageTransition>
   );
 }

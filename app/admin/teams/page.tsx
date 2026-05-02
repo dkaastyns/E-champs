@@ -1,5 +1,6 @@
 import { pool } from "@/lib/db";
 import TeamActionsClient from './TeamActionsClient';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 
 interface Team {
   id: number;
@@ -33,13 +34,15 @@ export default async function AdminTeamsPage() {
   const pendingCount = teams.filter((t) => !t.isDeleted && t.paymentStatus === 'pending').length;
   
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div>
         <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase">TEAM MANAGEMENT</h1>
         <p className="font-[family-name:var(--font-body)] text-gray-400 mt-2">Manage registrations, verify payments, handle withdrawals.</p>
       </div>
 
-      <TeamActionsClient teams={teams} pendingCount={pendingCount} />
-    </div>
+      <RevealOnScroll delay={100}>
+        <TeamActionsClient teams={teams} pendingCount={pendingCount} />
+      </RevealOnScroll>
+    </PageTransition>
   );
 }

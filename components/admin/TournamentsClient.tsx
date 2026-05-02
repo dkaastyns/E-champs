@@ -6,6 +6,7 @@ import { useTournaments, useCreateTournament, useUpdateTournament, useDeleteTour
 import { Tournament } from '@/lib/api';
 import { formatRupiah } from '@indodev/toolkit/currency';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 import {
   Select,
   SelectContent,
@@ -142,7 +143,7 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
   };
 
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase">TOURNAMENTS</h1>
@@ -156,6 +157,7 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
         </button>
       </div>
 
+      <RevealOnScroll delay={100}>
       <div className="bg-[#0d0d0d] border border-[#1a1a1a] overflow-hidden">
         <table className="w-full">
           <thead>
@@ -208,14 +210,17 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
           </tbody>
         </table>
       </div>
+      </RevealOnScroll>
 
       {tournaments.length === 0 && (
+        <RevealOnScroll delay={200}>
         <div className="text-center py-12 bg-[#0d0d0d] border border-[#1a1a1a]">
           <p className="text-gray-400">No tournaments found.</p>
           <button onClick={openCreateDialog} className="text-[#6520EE] hover:underline mt-2 inline-block">
             Create your first tournament
           </button>
         </div>
+        </RevealOnScroll>
       )}
 
       {/* Edit Dialog */}
@@ -416,6 +421,6 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
           </div>
         </div>
       )}
-    </div>
+    </PageTransition>
   );
 }

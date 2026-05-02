@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { useGenerateBracket } from '@/lib/hooks';
 import { useState } from 'react';
 import { formatDate } from '@indodev/toolkit/datetime';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -92,7 +93,7 @@ export default function AdminBracketsPageClient({ tournaments }: AdminBracketsPa
   }
 
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div>
         <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase">
           BRACKET MANAGEMENT
@@ -106,12 +107,13 @@ export default function AdminBracketsPageClient({ tournaments }: AdminBracketsPa
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {tournaments.map((tournament) => {
+        {tournaments.map((tournament, idx) => {
           const canGenerate = tournament.verifiedTeams >= MIN_TEAMS_REQUIRED;
           const showGenerateButton = !tournament.bracketExists;
 
           return (
-            <div key={tournament.id} className="bg-[#0d0d0d] border border-[#1a1a1a] p-6 flex flex-col">
+          <RevealOnScroll key={tournament.id} delay={idx * 100}>
+            <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-6 flex flex-col">
               <h2 className="font-[family-name:var(--font-display)] text-2xl text-white mb-2">
                 {tournament.name}
               </h2>
@@ -169,6 +171,7 @@ export default function AdminBracketsPageClient({ tournaments }: AdminBracketsPa
                 )}
               </div>
             </div>
+          </RevealOnScroll>
           );
         })}
       </div>
@@ -196,6 +199,6 @@ export default function AdminBracketsPageClient({ tournaments }: AdminBracketsPa
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </PageTransition>
   );
 }

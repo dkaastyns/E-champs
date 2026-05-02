@@ -1,5 +1,6 @@
 import { pool } from "@/lib/db";
 import { formatDate } from "@indodev/toolkit/datetime";
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 
 interface ScheduleItem {
   teamId: number;
@@ -61,7 +62,7 @@ export default async function SchedulePage() {
   });
 
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div>
         <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase">
           Tournament Schedule
@@ -74,7 +75,8 @@ export default async function SchedulePage() {
       {Object.entries(groupedByCategory).map(([categoryId, teams]) => {
         const category = teams[0];
         return (
-          <div key={categoryId} className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg overflow-hidden">
+          <RevealOnScroll key={categoryId} delay={parseInt(categoryId) % 5 * 100}>
+          <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg overflow-hidden">
             <div className="p-6 border-b border-[#1a1a1a] bg-gradient-to-r from-[#6520EE]/10 to-transparent">
               <h2 className="text-xl font-bold text-white">{category.categoryName}</h2>
               <div className="flex items-center gap-4 mt-2 text-sm text-gray-400">
@@ -134,15 +136,18 @@ export default async function SchedulePage() {
               </table>
             </div>
           </div>
+          </RevealOnScroll>
         );
       })}
 
       {schedule.length === 0 && (
+        <RevealOnScroll delay={100}>
         <div className="text-center py-12 bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg">
           <p className="text-gray-400">No verified teams found.</p>
           <p className="text-gray-500 text-sm mt-2">Teams will appear here once their payment is verified.</p>
         </div>
+        </RevealOnScroll>
       )}
-    </div>
+    </PageTransition>
   );
 }

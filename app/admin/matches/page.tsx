@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useTournaments, useMatches, useRecordMatchResult } from '@/lib/hooks';
 import type { Match } from '@/lib/api';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 import {
   Select,
   SelectContent,
@@ -42,12 +43,13 @@ export default function AdminMatchesPage() {
   );
 
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div>
         <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase">MATCH RESULTS</h1>
         <p className="font-[family-name:var(--font-body)] text-gray-400 mt-2">Record match winners.</p>
       </div>
 
+      <RevealOnScroll delay={100}>
       <div className="flex gap-4">
         <Select
           value={selectedTournament}
@@ -69,19 +71,23 @@ export default function AdminMatchesPage() {
           </SelectContent>
         </Select>
       </div>
+      </RevealOnScroll>
 
       {isLoading ? (
         <div className="text-white">Loading...</div>
       ) : (
         <div className="space-y-4">
           {filteredMatches.length === 0 && (
-            <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 text-center">
-              <p className="text-gray-400">No matches ready for recording.</p>
-            </div>
+            <RevealOnScroll delay={150}>
+          <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 text-center">
+            <p className="text-gray-400">No matches ready for recording.</p>
+          </div>
+          </RevealOnScroll>
           )}
 
-          {filteredMatches.map((match) => (
-            <div key={match.id} className="bg-[#0d0d0d] border border-[#1a1a1a] p-6">
+          {filteredMatches.map((match, idx) => (
+            <RevealOnScroll key={match.id} delay={idx * 80}>
+            <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="text-sm text-gray-500">
                   {match.categoryName} - Round {match.round} - Match {match.matchNumber}
@@ -117,9 +123,10 @@ export default function AdminMatchesPage() {
                 </button>
               </div>
             </div>
+            </RevealOnScroll>
           ))}
         </div>
       )}
-    </div>
+    </PageTransition>
   );
 }
