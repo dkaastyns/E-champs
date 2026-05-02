@@ -34,11 +34,11 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <section id="faq" className="py-16 sm:py-24 bg-[#0d0d0d]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="mb-10 sm:mb-16">
-          <span className="text-[#2BE900] text-xs sm:text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">SUPPORT</span>
-          <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-white uppercase leading-none mt-2">
+    <section id="faq" className="py-24 bg-[#0d0d0d]">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="mb-16">
+          <span className="text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">SUPPORT</span>
+          <h2 className="font-[family-name:var(--font-display)] text-6xl md:text-8xl text-white uppercase leading-none mt-2">
             FAQ
           </h2>
         </div>
@@ -54,27 +54,27 @@ export function FAQSection() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                  className="w-full py-4 sm:py-6 flex items-start gap-3 sm:gap-6 text-left group"
+                  className="w-full py-6 flex items-start gap-6 text-left group"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 sm:w-12 sm:h-12 bg-[#6520EE] flex items-center justify-center">
-                    <span className="font-[family-name:var(--font-display)] text-base sm:text-xl text-white">
+                  <div className="flex-shrink-0 w-12 h-12 bg-[#6520EE] flex items-center justify-center">
+                    <span className="font-[family-name:var(--font-display)] text-xl text-white">
                       {faq.number}
                     </span>
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-[family-name:var(--font-heading)] text-base sm:text-xl text-white group-hover:text-[#6520EE] transition-colors">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-[family-name:var(--font-heading)] text-xl text-white group-hover:text-[#6520EE] transition-colors">
                         {faq.question}
                       </h3>
                       
-                      <span className={`text-[#2BE900] text-xl sm:text-2xl transition-transform flex-shrink-0 ${isOpen ? 'rotate-45' : ''}`}>
+                      <span className={`text-[#2BE900] text-2xl transition-transform ${isOpen ? 'rotate-45' : ''}`}>
                         +
                       </span>
                     </div>
 
                     {isOpen && (
-                      <div className="mt-3 sm:mt-4 text-gray-400 font-[family-name:var(--font-body)] text-sm sm:text-base leading-relaxed pl-0">
+                      <div className="mt-4 text-gray-400 font-[family-name:var(--font-body)] leading-relaxed pl-0">
                         {faq.answer}
                       </div>
                     )}
@@ -85,15 +85,15 @@ export function FAQSection() {
           })}
         </div>
 
-        <div className="mt-10 sm:mt-16 p-6 sm:p-8 border border-[#1a1a1a] bg-[#080808]">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl text-white">STILL HAVE QUESTIONS?</h3>
-              <p className="font-[family-name:var(--font-body)] text-gray-400 mt-2 text-sm sm:text-base">Contact our support team for assistance.</p>
+        <div className="mt-16 p-8 border border-[#1a1a1a] bg-[#080808]">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h3 className="font-[family-name:var(--font-display)] text-3xl text-white">STILL HAVE QUESTIONS?</h3>
+              <p className="font-[family-name:var(--font-body)] text-gray-400 mt-2">Contact our support team for assistance.</p>
             </div>
             <a
               href="mailto:support@e-champs.com"
-              className="inline-flex items-center justify-center border-2 border-[#6520EE] text-[#6520EE] hover:bg-[#6520EE] hover:text-white font-bold px-6 sm:px-8 py-2 sm:py-3 font-[family-name:var(--font-heading)] transition-colors text-sm sm:text-base"
+              className="inline-flex items-center justify-center border-2 border-[#6520EE] text-[#6520EE] hover:bg-[#6520EE] hover:text-white font-bold px-8 py-3 font-[family-name:var(--font-heading)] transition-colors"
             >
               CONTACT SUPPORT
             </a>

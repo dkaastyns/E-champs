@@ -65,20 +65,20 @@ export function GamesShowcase() {
   };
 
   return (
-    <section id="games" className="py-16 sm:py-24 bg-[#0d0d0d] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 sm:mb-12">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-0">
+    <section id="games" className="py-24 bg-[#0d0d0d] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 mb-12">
+        <div className="flex items-end justify-between">
           <div>
-            <span className="text-[#2BE900] text-xs sm:text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">FEATURED</span>
-            <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-white uppercase leading-none mt-2">
+            <span className="text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">FEATURED</span>
+            <h2 className="font-[family-name:var(--font-display)] text-6xl md:text-8xl text-white uppercase leading-none mt-2">
               GAMES
             </h2>
-            <p className="font-[family-name:var(--font-body)] text-gray-400 max-w-xl mt-3 sm:mt-4 text-sm sm:text-base">
+            <p className="font-[family-name:var(--font-body)] text-gray-400 max-w-xl mt-4">
               Choose your battlefield. From tactical shooters to strategic MOBAs.
             </p>
           </div>
 
-          <div className="hidden sm:flex gap-2">
+          <div className="flex gap-2">
             <button
               onClick={() => scroll('left')}
               className="w-12 h-12 border border-[#1a1a1a] hover:border-[#6520EE] flex items-center justify-center text-white transition-colors"
@@ -97,13 +97,13 @@ export function GamesShowcase() {
 
       <div
         ref={scrollRef}
-        className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide px-4 sm:px-6 pb-4 snap-x snap-mandatory"
+        className="flex gap-6 overflow-x-auto scrollbar-hide px-6 pb-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {games.map((game, index) => (
           <div
             key={game.slug}
-            className="relative flex-shrink-0 w-[280px] sm:w-[300px] md:w-[350px] snap-start group"
+            className="relative flex-shrink-0 w-[300px] md:w-[350px] group"
           >
             {/* Card with angled edge */}
             <div className="relative h-[400px] overflow-hidden">
@@ -118,29 +118,29 @@ export function GamesShowcase() {
               <div className="absolute inset-0 bg-[#6520EE]/0 group-hover:bg-[#6520EE]/20 transition-all duration-300" />
 
 
-              <div className="absolute inset-0 p-4 sm:p-6 flex flex-col justify-end">
+              <div className="absolute inset-0 p-6 flex flex-col justify-end">
                 <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform">
                   <span className="inline-block bg-[#2BE900] text-black text-xs font-bold px-2 py-1 mb-2">
                     {String(index + 1).padStart(2, '0')}
                   </span>
 
-                  <h3 className="font-[family-name:var(--font-display)] text-2xl sm:text-4xl text-white leading-none">
+                  <h3 className="font-[family-name:var(--font-display)] text-4xl text-white leading-none">
                     {game.name}
                   </h3>
-                  <p className="font-[family-name:var(--font-heading)] text-[#2BE900] text-xs sm:text-sm">
+                  <p className="font-[family-name:var(--font-heading)] text-[#2BE900] text-sm">
                     {game.subtitle}</p>
 
-                  <div className="grid grid-cols-3 gap-2 mt-4 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                  <div className="grid grid-cols-3 gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="text-center">
-                      <div className="font-[family-name:var(--font-display)] text-xl sm:text-2xl text-white">{game.teamSize}</div>
+                      <div className="font-[family-name:var(--font-display)] text-2xl text-white">{game.teamSize}</div>
                       <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">VS</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-[family-name:var(--font-display)] text-xl sm:text-2xl text-white">{game.maxTeams}</div>
+                      <div className="font-[family-name:var(--font-display)] text-2xl text-white">{game.maxTeams}</div>
                       <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">TEAMS</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-[family-name:var(--font-display)] text-sm sm:text-2xl text-[#6520EE]">{formatRupiah(game.fee)}</div>
+                      <div className="font-[family-name:var(--font-display)] text-2xl text-[#6520EE]">{formatRupiah(game.fee)}</div>
                       <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">FEE</div>
                     </div>
                   </div>
