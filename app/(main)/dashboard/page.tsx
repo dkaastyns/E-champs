@@ -69,15 +69,15 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-6">
           <div className="text-3xl font-black text-white mb-1">{stats.totalTeams}</div>
-          <div className="text-gray-400 text-sm">Teams Registered</div>
+          <div className="text-gray-400 text-base">Teams Registered</div>
         </div>
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-6">
           <div className="text-3xl font-black text-[#2BE900] mb-1">{stats.verifiedTeams}</div>
-          <div className="text-gray-400 text-sm">Verified Entries</div>
+          <div className="text-gray-400 text-base">Verified Entries</div>
         </div>
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-6">
           <div className="text-3xl font-black text-[#6520EE] mb-1">{stats.upcomingTournaments}</div>
-          <div className="text-gray-400 text-sm">Active Tournaments</div>
+          <div className="text-gray-400 text-base">Active Tournaments</div>
         </div>
       </div>
 
