@@ -65,7 +65,7 @@ export default async function AdminDashboard() {
               {stats.totalTournaments}
             </div>
           </div>
-          <div className="text-gray-400 text-sm font-[family-name:var(--font-body)]">
+          <div className="text-gray-400 text-base font-[family-name:var(--font-body)]">
             Tournaments
           </div>
         </div>
@@ -79,7 +79,7 @@ export default async function AdminDashboard() {
               {stats.totalTeams}
             </div>
           </div>
-          <div className="text-gray-400 text-sm font-[family-name:var(--font-body)]">
+          <div className="text-gray-400 text-base font-[family-name:var(--font-body)]">
             Total Teams
           </div>
         </div>
@@ -96,7 +96,7 @@ export default async function AdminDashboard() {
               {stats.pendingPayments}
             </div>
           </div>
-          <div className="text-gray-400 text-sm font-[family-name:var(--font-body)]">
+          <div className="text-gray-400 text-base font-[family-name:var(--font-body)]">
             Pending Payment
           </div>
         </div>
@@ -113,7 +113,7 @@ export default async function AdminDashboard() {
               {stats.verifiedTeams}
             </div>
           </div>
-          <div className="text-gray-400 text-sm font-[family-name:var(--font-body)]">
+          <div className="text-gray-400 text-base font-[family-name:var(--font-body)]">
             Verified
           </div>
         </div>
@@ -127,7 +127,7 @@ export default async function AdminDashboard() {
               {stats.withdrawnTeams}
             </div>
           </div>
-          <div className="text-gray-400 text-sm font-[family-name:var(--font-body)]">
+          <div className="text-gray-400 text-base font-[family-name:var(--font-body)]">
             Withdrawn
           </div>
         </div>
