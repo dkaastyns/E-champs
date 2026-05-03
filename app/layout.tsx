@@ -3,6 +3,7 @@ import { Bebas_Neue, Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
+import TargetCursor from "@/components/TargetCursor";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={cn(
         "h-full",
         "antialiased",
@@ -48,6 +50,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="E-Champs" />
       </head>
       <body className="min-h-full flex flex-col bg-[#080808] font-[family-name:var(--font-body)]">
+        <TargetCursor 
+          spinDuration={2}
+          hideDefaultCursor={true}
+          parallaxOn={true}
+        />
         <Providers>{children}</Providers>
       </body>
     </html>

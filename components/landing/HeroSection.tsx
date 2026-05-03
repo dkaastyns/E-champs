@@ -38,14 +38,14 @@ function StatItem({
 }) {
   return (
     <div
-      className={`flex items-baseline gap-2 ${isVisible ? `animate-fade-up ${delay}` : 'opacity-0'}`}
+      className={`flex items-baseline gap-1 min-[391px]:gap-2 ${isVisible ? `animate-fade-up ${delay}` : 'opacity-0'}`}
     >
       <span
-        className={`font-[family-name:var(--font-display)] text-4xl ${color ?? 'text-white'}`}
+        className={`font-[family-name:var(--font-display)] text-2xl min-[391px]:text-4xl ${color ?? 'text-white'}`}
       >
         {value}
       </span>
-      <span className="text-gray-500 text-sm font-[family-name:var(--font-body)]">{label}</span>
+      <span className="text-gray-500 text-xs min-[391px]:text-sm font-[family-name:var(--font-body)]">{label}</span>
     </div>
   );
 }
@@ -109,52 +109,52 @@ export function HeroSection() {
       {/* Extra top-left accent glow */}
       <div className="absolute -left-32 top-0 w-[400px] h-[400px] bg-[#2BE900]/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 min-[391px]:px-6 lg:px-8 pt-24 min-[391px]:pt-32 pb-20 min-[391px]:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-[391px]:gap-12 items-center">
 
           {/* --- LEFT: Text content --- */}
           <div className="relative">
             {/* Badge */}
-            <div className={`inline-flex items-center gap-2 mb-8 ${contentVisible ? 'animate-fade-left delay-0' : 'opacity-0'}`}>
+            <div className={`inline-flex items-center gap-2 mb-6 min-[391px]:mb-8 ${contentVisible ? 'animate-fade-left delay-0' : 'opacity-0'}`}>
               <span className="w-2 h-2 bg-[#2BE900] rounded-full animate-ping absolute" />
               <span className="w-2 h-2 bg-[#2BE900] rounded-full relative" />
-              <span className="text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)] ml-1">
+              <span className="text-[#2BE900] text-xs min-[391px]:text-sm font-bold tracking-widest font-[family-name:var(--font-body)] ml-1">
                 REGISTRATION OPEN
               </span>
             </div>
 
             {/* Headline — staggered per word */}
-            <h1 className="font-[family-name:var(--font-display)] text-[120px] md:text-[180px] lg:text-[220px] leading-[0.85] tracking-tight text-white uppercase">
+            <h1 className="font-[family-name:var(--font-display)] text-[64px] min-[391px]:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[220px] leading-[0.85] tracking-tight text-white uppercase">
               <span className={`block ${contentVisible ? 'animate-fade-up delay-100' : 'opacity-0'}`}>PLAY</span>
               <span className={`block text-[#6520EE] ${contentVisible ? 'animate-fade-up delay-200' : 'opacity-0'}`}>FOR</span>
               <span className={`block relative ${contentVisible ? 'animate-fade-up delay-300' : 'opacity-0'}`}>
                 PURPOSE
                 {/* Animated underline */}
                 <span
-                  className={`absolute -bottom-2 left-0 h-2 bg-[#2BE900] ${contentVisible ? 'animate-fade-right delay-500' : 'opacity-0'}`}
+                  className={`absolute -bottom-1 min-[391px]:-bottom-2 left-0 h-1 min-[391px]:h-2 bg-[#2BE900] ${contentVisible ? 'animate-fade-right delay-500' : 'opacity-0'}`}
                   style={{ width: contentVisible ? '100%' : '0%', transition: 'width 0.8s cubic-bezier(0.22,1,0.36,1) 0.7s' }}
                 />
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className={`font-[family-name:var(--font-body)] text-gray-400 text-lg max-w-md mt-8 mb-10 ${contentVisible ? 'animate-fade-up delay-400' : 'opacity-0'}`}>
+            <p className={`font-[family-name:var(--font-body)] text-gray-400 text-base min-[391px]:text-lg max-w-md mt-6 min-[391px]:mt-8 mb-8 min-[391px]:mb-10 ${contentVisible ? 'animate-fade-up delay-400' : 'opacity-0'}`}>
               Join the ultimate esports tournament platform. Register your team,
               compete against the best, and claim your victory.
             </p>
 
             {/* CTA Buttons */}
-            <div className={`flex flex-col sm:flex-row gap-4 ${contentVisible ? 'animate-fade-up delay-500' : 'opacity-0'}`}>
+            <div className={`flex flex-col sm:flex-row gap-3 min-[391px]:gap-4 ${contentVisible ? 'animate-fade-up delay-500' : 'opacity-0'}`}>
               <Link
                 href="/tournaments"
-                className="btn-press inline-flex items-center justify-center bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-8 py-4 rounded-none transition-all text-lg font-[family-name:var(--font-heading)] hover:shadow-[0_0_30px_rgba(101,32,238,0.5)] hover:-translate-y-1"
+                className="btn-press inline-flex items-center justify-center bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 min-[391px]:px-8 py-3 min-[391px]:py-4 rounded-none transition-all text-base min-[391px]:text-lg font-[family-name:var(--font-heading)] hover:shadow-[0_0_30px_rgba(101,32,238,0.5)] hover:-translate-y-1"
                 style={{ transition: 'background 0.2s, box-shadow 0.3s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)' }}
               >
                 BROWSE TOURNAMENTS
               </Link>
               <Link
                 href="/register"
-                className="btn-press inline-flex items-center justify-center border-2 border-[#2BE900] text-[#2BE900] hover:bg-[#2BE900] hover:text-black font-bold px-8 py-4 rounded-none transition-all text-lg font-[family-name:var(--font-heading)] hover:shadow-[0_0_20px_rgba(43,233,0,0.4)] hover:-translate-y-1"
+                className="btn-press inline-flex items-center justify-center border-2 border-[#2BE900] text-[#2BE900] hover:bg-[#2BE900] hover:text-black font-bold px-6 min-[391px]:px-8 py-3 min-[391px]:py-4 rounded-none transition-all text-base min-[391px]:text-lg font-[family-name:var(--font-heading)] hover:shadow-[0_0_20px_rgba(43,233,0,0.4)] hover:-translate-y-1"
                 style={{ transition: 'background 0.2s, color 0.2s, box-shadow 0.3s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)' }}
               >
                 CREATE ACCOUNT
@@ -163,12 +163,13 @@ export function HeroSection() {
           </div>
 
           {/* --- RIGHT: Hero image with float animation --- */}
-          <div className={`relative h-[600px] lg:h-[800px] ${contentVisible ? 'animate-fade-right delay-300' : 'opacity-0'}`}>
+          <div className={`hidden lg:block relative h-[600px] lg:h-[800px] ${contentVisible ? 'animate-fade-right delay-300' : 'opacity-0'}`}>
             <div className="absolute inset-0 animate-float" style={{ animationDelay: '0.5s' }}>
               <Image
                 src="/hero-character.jpg"
                 alt="Gaming Warrior"
                 fill
+                sizes="(max-width: 1024px) 0vw, 50vw"
                 className="object-contain object-right"
                 priority
               />
@@ -184,8 +185,8 @@ export function HeroSection() {
 
       {/* --- Stats bar --- */}
       <div ref={statsRef} className="absolute bottom-0 left-0 right-0 bg-[#0d0d0d] border-t border-[#1a1a1a]">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto px-4 min-[391px]:px-6 py-4 min-[391px]:py-6">
+          <div className="grid grid-cols-3 gap-4 min-[391px]:gap-8">
             <StatItem
               value="05"
               label="GAME TITLES"
