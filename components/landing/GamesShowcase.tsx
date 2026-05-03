@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { formatRupiah } from '@indodev/toolkit/currency';
 
 const games = [
@@ -53,41 +53,63 @@ const games = [
 
 export function GamesShowcase() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  // Trigger entrance animation when scrolled into view
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.15 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = 400;
       scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: direction === 'left' ? -400 : 400,
         behavior: 'smooth',
       });
     }
   };
 
   return (
-    <section id="games" className="py-24 bg-[#0d0d0d] overflow-hidden">
+    <section ref={sectionRef} id="games" className="py-24 bg-[#0d0d0d] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 mb-12">
         <div className="flex items-end justify-between">
           <div>
-            <span className="text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)]">FEATURED</span>
-            <h2 className="font-[family-name:var(--font-display)] text-6xl md:text-8xl text-white uppercase leading-none mt-2">
+            <span
+              className={`text-[#2BE900] text-sm font-bold tracking-widest font-[family-name:var(--font-body)] block ${visible ? 'animate-fade-left delay-0' : 'opacity-0'}`}
+            >
+              FEATURED
+            </span>
+            <h2
+              className={`font-[family-name:var(--font-display)] text-6xl md:text-8xl text-white uppercase leading-none mt-2 ${visible ? 'animate-fade-up delay-100' : 'opacity-0'}`}
+            >
               GAMES
             </h2>
-            <p className="font-[family-name:var(--font-body)] text-gray-400 max-w-xl mt-4">
+            <p
+              className={`font-[family-name:var(--font-body)] text-gray-400 max-w-xl mt-4 ${visible ? 'animate-fade-up delay-200' : 'opacity-0'}`}
+            >
               Choose your battlefield. From tactical shooters to strategic MOBAs.
             </p>
           </div>
 
-          <div className="flex gap-2">
+          {/* Scroll buttons */}
+          <div className={`flex gap-2 ${visible ? 'animate-fade-right delay-200' : 'opacity-0'}`}>
             <button
               onClick={() => scroll('left')}
-              className="w-12 h-12 border border-[#1a1a1a] hover:border-[#6520EE] flex items-center justify-center text-white transition-colors"
+              className="w-12 h-12 border border-[#1a1a1a] hover:border-[#6520EE] flex items-center justify-center text-white transition-all duration-300 hover:bg-[#6520EE]/10 hover:scale-110 active:scale-95"
             >
               ←
             </button>
             <button
               onClick={() => scroll('right')}
-              className="w-12 h-12 border border-[#1a1a1a] hover:border-[#6520EE] flex items-center justify-center text-white transition-colors"
+              className="w-12 h-12 border border-[#1a1a1a] hover:border-[#6520EE] flex items-center justify-center text-white transition-all duration-300 hover:bg-[#6520EE]/10 hover:scale-110 active:scale-95"
             >
               →
             </button>
@@ -95,62 +117,77 @@ export function GamesShowcase() {
         </div>
       </div>
 
+      {/* Cards row */}
       <div
         ref={scrollRef}
         className="flex gap-6 overflow-x-auto scrollbar-hide px-6 pb-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {games.map((game, index) => (
-          <div
-            key={game.slug}
-            className="relative flex-shrink-0 w-[300px] md:w-[350px] group"
-          >
-            {/* Card with angled edge */}
-            <div className="relative h-[400px] overflow-hidden">
-              <div className="absolute inset-0">
-                <div
-                  className="w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${game.image})` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-              </div>
+        {games.map((game, index) => {
+          return (
+            <div
+              key={game.slug}
+              className={`relative flex-shrink-0 w-[300px] md:w-[350px] group hover-lift ${visible ? 'animate-fade-up' : 'opacity-0'}`}
+              style={{ animationDelay: visible ? `${200 + index * 100}ms` : '0ms' }}
+            >
+              {/* Card */}
+              <div className="relative h-[400px] overflow-hidden">
+                {/* Background image with zoom-on-hover */}
+                <div className="absolute inset-0">
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 ease-in-out group-hover:scale-110"
+                    style={{ backgroundImage: `url(${game.image})` }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                </div>
 
-              <div className="absolute inset-0 bg-[#6520EE]/0 group-hover:bg-[#6520EE]/20 transition-all duration-300" />
+                {/* Purple overlay on hover */}
+                <div className="absolute inset-0 bg-[#6520EE]/0 group-hover:bg-[#6520EE]/20 transition-all duration-500" />
 
+                {/* Shimmer overlay */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer" />
 
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform">
-                  <span className="inline-block bg-[#2BE900] text-black text-xs font-bold px-2 py-1 mb-2">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+                {/* Content */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-400 ease-out">
+                    <span className="inline-block bg-[#2BE900] text-black text-xs font-bold px-2 py-1 mb-2">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
 
-                  <h3 className="font-[family-name:var(--font-display)] text-4xl text-white leading-none">
-                    {game.name}
-                  </h3>
-                  <p className="font-[family-name:var(--font-heading)] text-[#2BE900] text-sm">
-                    {game.subtitle}</p>
+                    <h3 className="font-[family-name:var(--font-display)] text-4xl text-white leading-none">
+                      {game.name}
+                    </h3>
+                    <p className="font-[family-name:var(--font-heading)] text-[#2BE900] text-sm">
+                      {game.subtitle}
+                    </p>
 
-                  <div className="grid grid-cols-3 gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="text-center">
-                      <div className="font-[family-name:var(--font-display)] text-2xl text-white">{game.teamSize}</div>
-                      <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">VS</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="font-[family-name:var(--font-display)] text-2xl text-white">{game.maxTeams}</div>
-                      <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">TEAMS</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="font-[family-name:var(--font-display)] text-2xl text-[#6520EE]">{formatRupiah(game.fee)}</div>
-                      <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">FEE</div>
+                    {/* Stats — fade in on hover */}
+                    <div className="grid grid-cols-3 gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75 translate-y-2 group-hover:translate-y-0">
+                      <div className="text-center">
+                        <div className="font-[family-name:var(--font-display)] text-2xl text-white">{game.teamSize}</div>
+                        <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">VS</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-[family-name:var(--font-display)] text-2xl text-white">{game.maxTeams}</div>
+                        <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">TEAMS</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-[family-name:var(--font-display)] text-2xl text-[#6520EE]">{formatRupiah(game.fee)}</div>
+                        <div className="text-gray-500 text-xs font-[family-name:var(--font-body)]">FEE</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="absolute top-0 right-0 w-16 h-16 bg-[#2BE900] transform rotate-45 translate-x-8 -translate-y-8 group-hover:translate-x-4 group-hover:-translate-y-4 transition-transform" />
+                {/* Corner accent with smooth slide */}
+                <div className="absolute top-0 right-0 w-16 h-16 bg-[#2BE900] transform rotate-45 translate-x-8 -translate-y-8 group-hover:translate-x-4 group-hover:-translate-y-4 transition-transform duration-400 ease-out" />
+
+                {/* Bottom border glow on hover */}
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#6520EE] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

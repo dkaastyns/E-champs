@@ -2,6 +2,7 @@ import { pool } from '@/lib/db';
 import { transformToLibraryFormat, DBMatch } from '@/lib/bracket-transform';
 import { InteractiveBracket } from '@/components/bracket/InteractiveBracket';
 import Link from 'next/link';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 
 async function getBracket(tournamentId: string): Promise<DBMatch[]> {
   const client = await pool.connect();
@@ -52,7 +53,7 @@ export default async function BracketDetailPage({ params }: BracketDetailPagePro
 
   if (matches.length === 0) {
     return (
-      <div className="space-y-8">
+      <PageTransition className="space-y-8">
         <div>
           <Link href="/admin/brackets" className="text-[#6520EE] hover:underline mb-4 inline-block">
             ← Back to Brackets
@@ -62,6 +63,7 @@ export default async function BracketDetailPage({ params }: BracketDetailPagePro
           </h1>
         </div>
         
+        <RevealOnScroll delay={100}>
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-8 text-center">
           <p className="text-gray-400 mb-4">No bracket generated yet.</p>
           <Link 
@@ -71,7 +73,8 @@ export default async function BracketDetailPage({ params }: BracketDetailPagePro
             Generate Bracket
           </Link>
         </div>
-      </div>
+        </RevealOnScroll>
+      </PageTransition>
     );
   }
 
@@ -80,7 +83,7 @@ export default async function BracketDetailPage({ params }: BracketDetailPagePro
   const libraryMatches = transformToLibraryFormat(matches, tournamentStartDate);
 
   return (
-    <div className="space-y-8">
+    <PageTransition className="space-y-8">
       <div>
         <Link href="/admin/brackets" className="text-[#6520EE] hover:underline mb-4 inline-block">
           ← Back to Brackets
@@ -93,10 +96,12 @@ export default async function BracketDetailPage({ params }: BracketDetailPagePro
         </p>
       </div>
 
+      <RevealOnScroll delay={100}>
       <InteractiveBracket 
         matches={libraryMatches} 
         categoryId={parseInt(id)}
       />
-    </div>
+      </RevealOnScroll>
+    </PageTransition>
   );
 }

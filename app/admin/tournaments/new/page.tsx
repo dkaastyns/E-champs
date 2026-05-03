@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { useCreateTournament } from '@/lib/hooks';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
+import { PageTransition, RevealOnScroll } from '@/components/ui/page-transition';
 
 export default function NewTournamentPage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function NewTournamentPage() {
   };
 
   return (
-    <div className="max-w-2xl">
+    <PageTransition className="max-w-2xl">
       <div className="mb-8">
         <Link href="/admin/tournaments" className="text-[#6520EE] hover:underline text-sm mb-2 inline-block">
           &larr; Back to Tournaments
@@ -51,6 +52,7 @@ export default function NewTournamentPage() {
         <p className="font-[family-name:var(--font-body)] text-gray-400 mt-2">Create a new tournament.</p>
       </div>
 
+      <RevealOnScroll delay={100}>
       <form onSubmit={handleSubmit} className="space-y-4 bg-[#0d0d0d] border border-[#1a1a1a] p-8">
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -113,6 +115,7 @@ export default function NewTournamentPage() {
           </button>
         </div>
       </form>
-    </div>
+      </RevealOnScroll>
+    </PageTransition>
   );
 }
