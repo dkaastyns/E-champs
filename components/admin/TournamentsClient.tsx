@@ -191,13 +191,13 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
                   <div className="flex gap-2">
                      <button
                       onClick={() => openEditDialog(tournament)}
-                      className="bg-[#6520EE]/20 text-[#6520EE] hover:bg-[#6520EE]/30 px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors"
+                       className="bg-[#6520EE]/20 text-[#6520EE] hover:bg-[#6520EE]/30 px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors cursor-pointer"
                     >
                       EDIT
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(tournament.id)}
-                      className="bg-red-500/20 text-red-500 hover:bg-red-500/30 px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors"
+                      className="bg-red-500/20 text-red-500 hover:bg-red-500/30 px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors cursor-pointer"
                     >
                       DELETE
                     </button>
