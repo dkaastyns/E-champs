@@ -77,7 +77,7 @@ export default async function DashboardPage() {
             className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-6 card-hover-glow"
           >
             <div className={`text-3xl font-black mb-1 ${stat.color}`}>{stat.value}</div>
-            <div className="text-gray-400 text-sm">{stat.label}</div>
+            <div className="text-gray-400 text-base">{stat.label}</div>
           </RevealOnScroll>
         ))}
       </div>

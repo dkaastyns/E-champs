@@ -67,7 +67,7 @@ export default async function AdminDashboard() {
                 </div>
                 <div className={`text-2xl font-bold ${card.valueColor}`}>{card.value}</div>
               </div>
-              <div className="text-gray-400 text-sm font-[family-name:var(--font-body)]">{card.label}</div>
+              <div className="text-gray-400 text-base font-[family-name:var(--font-body)]">{card.label}</div>
             </div>
           </RevealOnScroll>
         ))}
