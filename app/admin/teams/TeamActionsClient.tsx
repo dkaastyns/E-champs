@@ -152,19 +152,19 @@ export default function TeamActionsClient({ teams, pendingCount }: TeamActionsCl
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-4">
           <div className="font-[family-name:var(--font-display)] text-3xl text-white">{activeTeams.length}</div>
-          <div className="text-gray-500 text-sm font-[family-name:var(--font-body)]">Active Teams</div>
+          <div className="text-gray-500 text-base font-[family-name:var(--font-body)]">Active Teams</div>
         </div>
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-4">
           <div className="font-[family-name:var(--font-display)] text-3xl text-[#6520EE]">{pendingCount}</div>
-          <div className="text-gray-500 text-sm font-[family-name:var(--font-body)]">Pending Payment</div>
+          <div className="text-gray-500 text-base font-[family-name:var(--font-body)]">Pending Payment</div>
         </div>
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-4">
           <div className="font-[family-name:var(--font-display)] text-3xl text-[#2BE900]">{activeTeams.filter((t) => t.paymentStatus === 'verified').length}</div>
-          <div className="text-gray-500 text-sm font-[family-name:var(--font-body)]">Verified</div>
+          <div className="text-gray-500 text-base font-[family-name:var(--font-body)]">Verified</div>
         </div>
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] p-4">
           <div className="font-[family-name:var(--font-display)] text-3xl text-orange-500">{withdrawnTeams.length}</div>
-          <div className="text-gray-500 text-sm font-[family-name:var(--font-body)]">Withdrawn</div>
+          <div className="text-gray-500 text-base font-[family-name:var(--font-body)]">Withdrawn</div>
         </div>
       </div>
 
