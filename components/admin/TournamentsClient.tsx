@@ -151,7 +151,7 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
         </div>
         <button
           onClick={openCreateDialog}
-          className="bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 py-3 font-[family-name:var(--font-heading)] transition-colors"
+          className="bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 py-3 font-[family-name:var(--font-heading)] transition-colors cursor-pointer"
         >
           CREATE NEW
         </button>
@@ -232,7 +232,7 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
           <div className="bg-[#0d0d0d] border border-[#1a1a1a] w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 animate-in fade-in-0 zoom-in-95 duration-100">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-white">Edit Tournament</h2>
-              <button onClick={() => closeEditDialog()} className="text-gray-400 hover:text-white text-xl">×</button>
+              <button onClick={() => closeEditDialog()} className="text-gray-400 hover:text-white text-xl" cursor-pointer>×</button>
             </div>
 
             <form onSubmit={handleSave} className="space-y-4">
@@ -301,11 +301,11 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
               </div>
 
               <div className="flex justify-end gap-4 mt-6">
-                <button type="button" onClick={() => setEditing(null)} className="px-6 py-2 text-gray-400 hover:text-white transition-colors">Cancel</button>
+                <button type="button" onClick={() => setEditing(null)} className="px-6 py-2 text-gray-400 hover:text-white transition-colors cursor-pointer">Cancel</button>
                 <button
                   type="submit"
                   disabled={updateTournamentMutation.isPending}
-                  className="bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 py-2 transition-colors disabled:opacity-50"
+                  className="bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 py-2 transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {updateTournamentMutation.isPending ? 'SAVING...' : 'SAVE CHANGES'}
                 </button>
@@ -322,11 +322,11 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
             <h3 className="text-xl font-bold text-white mb-2">Delete Tournament?</h3>
             <p className="text-gray-400 mb-6">This action cannot be undone. Teams and matches will block deletion.</p>
             <div className="flex justify-center gap-4">
-              <button onClick={() => setShowDeleteConfirm(null)} className="px-6 py-2 text-gray-400 hover:text-white transition-colors">Cancel</button>
+              <button onClick={() => setShowDeleteConfirm(null)} className="px-6 py-2 text-gray-400 hover:text-white transition-colors cursor-pointer">Cancel</button>
               <button
                 onClick={() => handleDelete(showDeleteConfirm)}
                 disabled={deleteTournamentMutation.isPending}
-                className="bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500/30 px-6 py-2 font-bold transition-colors disabled:opacity-50"
+                className="bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500/30 px-6 py-2 font-bold transition-colors disabled:opacity-50 cursor-pointer"
               >
                 {deleteTournamentMutation.isPending ? 'DELETING...' : 'DELETE'}
               </button>
@@ -344,7 +344,7 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
           <div className="bg-[#0d0d0d] border border-[#1a1a1a] w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 animate-in fade-in-0 zoom-in-95 duration-100">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-white">Create New Tournament</h2>
-              <button onClick={() => closeCreateDialog()} className="text-gray-400 hover:text-white text-xl">×</button>
+              <button onClick={() => closeCreateDialog()} className="text-gray-400 hover:text-white text-xl cursor-pointer">×</button>
             </div>
 
             <form onSubmit={handleCreate} className="space-y-4">
@@ -408,11 +408,11 @@ export default function TournamentsClient({ tournaments: initialTournaments }: T
               </div>
 
               <div className="flex justify-end gap-4 mt-6">
-                <button type="button" onClick={() => closeCreateDialog()} className="px-6 py-2 text-gray-400 hover:text-white transition-colors">Cancel</button>
+                <button type="button" onClick={() => closeCreateDialog()} className="px-6 py-2 text-gray-400 hover:text-white transition-colors cursor-pointer">Cancel</button>
                 <button
                   type="submit"
                   disabled={createTournamentMutation.isPending}
-                  className="bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 py-2 transition-colors disabled:opacity-50"
+                  className="bg-[#6520EE] hover:bg-[#7c3aed] text-white font-bold px-6 py-2 transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {createTournamentMutation.isPending ? 'CREATING...' : 'CREATE TOURNAMENT'}
                 </button>
