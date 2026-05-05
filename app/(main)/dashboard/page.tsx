@@ -76,8 +76,17 @@ export default async function DashboardPage() {
             delay={i * 100}
             className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-6 card-hover-glow"
           >
-            <div className={`text-3xl font-black mb-1 ${stat.color}`}>{stat.value}</div>
-            <div className="text-gray-400 text-base">{stat.label}</div>
+            <Link
+              href={
+                stat.label === 'Teams Registered' ? '/my-teams' :
+                stat.label === 'Verified Entries' ? '/my-teams?status=verified' :
+                '/tournaments'
+              }
+              className="block w-full h-full cursor-pointer transition-all duration-200 hover:border-[#6520EE] hover:shadow-[0_0_20px_rgba(101,32,238,0.2)] p-1 rounded"
+            >
+              <div className={`text-3xl font-black mb-1 ${stat.color}`}>{stat.value}</div>
+              <div className="text-gray-400 text-base">{stat.label}</div>
+            </Link>
           </RevealOnScroll>
         ))}
       </div>
