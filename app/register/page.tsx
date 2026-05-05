@@ -53,7 +53,13 @@ export default function RegisterPage() {
         password: values.password,
       });
       if (result.error) {
-        toast.error(result.error.message || 'Registration failed');
+        const msg = result.error.message?.toLowerCase();
+
+      if (msg?.includes('already') || msg?.includes('exists')) {
+        toast.error('Email is already registered');
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
       } else {
         toast.success('Account created successfully!');
         router.push('/dashboard');
