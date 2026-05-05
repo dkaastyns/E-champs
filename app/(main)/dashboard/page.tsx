@@ -1,75 +1,65 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { pool } from "@/lib/db";
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
+import { Suspense } from "react";
 import { PageTransition, RevealOnScroll } from "@/components/ui/page-transition";
 
-async function getDashboardStats(userId: string) {
-  const client = await pool.connect();
-  try {
-    const teamsResult = await client.query(
-      `SELECT COUNT(*) FROM registered_teams WHERE "captainId" = $1 AND "isDeleted" = false`,
-      [userId]
-    );
-    const verifiedResult = await client.query(
-      `SELECT COUNT(*) FROM registered_teams WHERE "captainId" = $1 AND "paymentStatus" = 'verified' AND "isDeleted" = false`,
-      [userId]
-    );
-    const upcomingResult = await client.query(
-      `SELECT COUNT(*) FROM registered_teams rt
-       JOIN tournaments t ON rt."categoryId" = t.id
-       WHERE rt."captainId" = $1 AND rt."isDeleted" = false
-       AND t.status IN ('open', 'ongoing')`,
-      [userId]
-    );
-    const activeTournament = await client.query(
-      `SELECT t.name, t."tournamentStartDate", rt."teamName"
-       FROM registered_teams rt
-       JOIN tournaments t ON rt."categoryId" = t.id
-       WHERE rt."captainId" = $1 AND rt."isDeleted" = false
-       AND t.status = 'ongoing'
-       ORDER BY t."tournamentStartDate" ASC
-       LIMIT 1`,
-      [userId]
-    );
-    return {
-      totalTeams: parseInt(teamsResult.rows[0].count),
-      verifiedTeams: parseInt(verifiedResult.rows[0].count),
-      upcomingTournaments: parseInt(upcomingResult.rows[0].count),
-      activeTournament: activeTournament.rows[0] || null,
-    };
-  } finally {
-    client.release();
-  }
-}
+const getDashboardStats = unstable_cache(
+  async (userId: string) => {
+    const client = await pool.connect();
+    try {
+      const teamsResult = await client.query(
+        `SELECT COUNT(*) FROM registered_teams WHERE "captainId" = $1 AND "isDeleted" = false`,
+        [userId]
+      );
+      const verifiedResult = await client.query(
+        `SELECT COUNT(*) FROM registered_teams WHERE "captainId" = $1 AND "paymentStatus" = 'verified' AND "isDeleted" = false`,
+        [userId]
+      );
+      const upcomingResult = await client.query(
+        `SELECT COUNT(*) FROM registered_teams rt
+         JOIN tournaments t ON rt."categoryId" = t.id
+         WHERE rt."captainId" = $1 AND rt."isDeleted" = false
+         AND t.status IN ('open', 'ongoing')`,
+        [userId]
+      );
+      const activeTournament = await client.query(
+        `SELECT t.name, t."tournamentStartDate", rt."teamName"
+         FROM registered_teams rt
+         JOIN tournaments t ON rt."categoryId" = t.id
+         WHERE rt."captainId" = $1 AND rt."isDeleted" = false
+         AND t.status = 'ongoing'
+         ORDER BY t."tournamentStartDate" ASC
+         LIMIT 1`,
+        [userId]
+      );
+      return {
+        totalTeams: parseInt(teamsResult.rows[0].count),
+        verifiedTeams: parseInt(verifiedResult.rows[0].count),
+        upcomingTournaments: parseInt(upcomingResult.rows[0].count),
+        activeTournament: activeTournament.rows[0] || null,
+      };
+    } finally {
+      client.release();
+    }
+  },
+  ["dashboard-stats"],
+  { revalidate: 30, tags: ["dashboard"] }
+);
 
-export default async function DashboardPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) return null;
-
-  const stats = await getDashboardStats(session.user.id);
+async function DashboardStats({ userId }: { userId: string }) {
+  const stats = await getDashboardStats(userId);
 
   return (
-    <PageTransition className="space-y-8">
-      {/* Page header */}
-      <div>
-        <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase mb-2">
-          Dashboard
-        </h1>
-        <p className="font-[family-name:var(--font-body)] text-gray-400">
-          Welcome back, {session.user.name}. Here&apos;s your tournament overview.
-        </p>
-      </div>
-
+    <>
       {/* Stat cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { value: stats.totalTeams,         label: 'Teams Registered',  color: 'text-white' },
-          { value: stats.verifiedTeams,       label: 'Verified Entries',  color: 'text-[#2BE900]' },
-          { value: stats.upcomingTournaments, label: 'Active Tournaments', color: 'text-[#6520EE]' },
+          { value: stats.totalTeams, label: "Teams Registered", color: "text-white" },
+          { value: stats.verifiedTeams, label: "Verified Entries", color: "text-[#2BE900]" },
+          { value: stats.upcomingTournaments, label: "Active Tournaments", color: "text-[#6520EE]" },
         ].map((stat, i) => (
           <RevealOnScroll
             key={stat.label}
@@ -113,6 +103,51 @@ export default async function DashboardPage() {
           </div>
         )}
       </RevealOnScroll>
+    </>
+  );
+}
+
+function DashboardStatsSkeleton() {
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-6 animate-pulse">
+            <div className="h-8 w-12 bg-[#1a1a1a] rounded mb-2" />
+            <div className="h-4 w-28 bg-[#1a1a1a] rounded" />
+          </div>
+        ))}
+      </div>
+      <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-lg p-8 animate-pulse">
+        <div className="h-6 w-48 bg-[#1a1a1a] rounded" />
+      </div>
+    </>
+  );
+}
+
+export default async function DashboardPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) return null;
+
+  return (
+    <PageTransition className="space-y-8">
+      {/* Page header — renders immediately, no DB needed */}
+      <div>
+        <h1 className="font-[family-name:var(--font-display)] text-5xl text-white uppercase mb-2">
+          Dashboard
+        </h1>
+        <p className="font-[family-name:var(--font-body)] text-gray-400">
+          Welcome back, {session.user.name}. Here&apos;s your tournament overview.
+        </p>
+      </div>
+
+      {/* Stats stream in once DB query resolves */}
+      <Suspense fallback={<DashboardStatsSkeleton />}>
+        <DashboardStats userId={session.user.id} />
+      </Suspense>
     </PageTransition>
   );
 }

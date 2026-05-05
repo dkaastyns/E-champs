@@ -13,11 +13,20 @@ import { Field, FieldLabel, FieldError } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
+function getAuthErrorMessage(code?: string): string {
+  switch (code) {
+    case 'USER_ALREADY_EXISTS': return 'An account with this email already exists.';
+    case 'TOO_MANY_REQUESTS': return 'Too many attempts. Please wait a moment.';
+    case 'PASSWORD_TOO_SHORT': return 'Password must be at least 8 characters.';
+    default: return 'Registration failed. Please try again.';
+  }
+}
+
 const registerSchema = z
   .object({
-    name:            z.string().min(2, 'Name must be at least 2 characters'),
-    email:           z.string().email('Please enter a valid email address'),
-    password:        z.string().min(8, 'Password must be at least 8 characters'),
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -28,16 +37,16 @@ const registerSchema = z
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const fields = [
-  { id: 'name',            type: 'text',     label: 'Team Captain Name', placeholder: 'Your Name',        key: 'name'            },
-  { id: 'email',           type: 'email',    label: 'Email',             placeholder: 'captain@team.com', key: 'email'           },
-  { id: 'password',        type: 'password', label: 'Password',          placeholder: '••••••••',         key: 'password'        },
-  { id: 'confirmPassword', type: 'password', label: 'Confirm Password',  placeholder: '••••••••',         key: 'confirmPassword' },
+  { id: 'name', type: 'text', label: 'Team Captain Name', placeholder: 'Your Name', key: 'name' },
+  { id: 'email', type: 'email', label: 'Email', placeholder: 'captain@team.com', key: 'email' },
+  { id: 'password', type: 'password', label: 'Password', placeholder: '••••••••', key: 'password' },
+  { id: 'confirmPassword', type: 'password', label: 'Confirm Password', placeholder: '••••••••', key: 'confirmPassword' },
 ] as const;
 
 export default function RegisterPage() {
-  const router    = useRouter();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+  const mounted = useSyncExternalStore(() => () => { }, () => true, () => false);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -48,12 +57,12 @@ export default function RegisterPage() {
     setIsLoading(true);
     try {
       const result = await authClient.signUp.email({
-        name:     values.name,
-        email:    values.email,
+        name: values.name,
+        email: values.email,
         password: values.password,
       });
       if (result.error) {
-        toast.error(result.error.message || 'Registration failed');
+        toast.error(getAuthErrorMessage(result.error.code));
       } else {
         toast.success('Account created successfully!');
         router.push('/dashboard');
