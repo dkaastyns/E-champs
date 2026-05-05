@@ -13,27 +13,17 @@ import { Field, FieldLabel, FieldDescription, FieldError } from '@/components/ui
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-function getAuthErrorMessage(code?: string): string {
-  switch (code) {
-    case 'INVALID_EMAIL_OR_PASSWORD': return 'Incorrect email or password.';
-    case 'TOO_MANY_REQUESTS': return 'Too many attempts. Please wait a moment.';
-    case 'EMAIL_NOT_VERIFIED': return 'Please verify your email before logging in.';
-    case 'USER_BANNED': return 'Your account has been suspended.';
-    default: return 'Something went wrong. Please try again.';
-  }
-}
-
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email:    z.string().email('Please enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const router = useRouter();
+  const router    = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const mounted = useSyncExternalStore(() => () => { }, () => true, () => false);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -44,11 +34,19 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const result = await authClient.signIn.email({
-        email: values.email,
+        email:    values.email,
         password: values.password,
       });
       if (result.error) {
-        toast.error(getAuthErrorMessage(result.error.code));
+        const msg = result.error.message?.toLowerCase();
+
+        if (msg?.includes('invalid') || msg?.includes('wrong')) {
+          toast.error('Invalid email or password');
+        } else if (msg?.includes('not found') || msg?.includes('user')) {
+          toast.error('Account not found');
+        } else {
+          toast.error('Login failed. Please try again.');
+        }
       } else {
         toast.success('Welcome back!');
         router.push('/dashboard');

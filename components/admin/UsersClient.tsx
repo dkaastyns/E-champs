@@ -171,7 +171,7 @@ export default function UsersClient({ users: initialUsers }: { users: AdminUser[
                     <button
                       onClick={() => openPromoteDialog(user)}
                       disabled={promoteUserMutation.isPending}
-                      className={`px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors disabled:opacity-50 ${
+                      className={`px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors disabled:opacity-50 cursor-pointer ${
                         user.role === 'admin'
                           ? 'bg-orange-500/20 text-orange-500 hover:bg-orange-500/30'
                           : 'bg-[#6520EE]/20 text-[#6520EE] hover:bg-[#6520EE]/30'
@@ -182,7 +182,7 @@ export default function UsersClient({ users: initialUsers }: { users: AdminUser[
                     <button
                       onClick={() => openBanDialog(user)}
                       disabled={banUserMutation.isPending}
-                      className={`px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors disabled:opacity-50 ${
+                      className={`px-3 py-1 text-sm font-[family-name:var(--font-heading)] transition-colors disabled:opacity-50 cursor-pointer ${
                         user.banned
                           ? 'bg-[#2BE900]/20 text-[#2BE900] hover:bg-[#2BE900]/30'
                           : 'bg-red-500/20 text-red-500 hover:bg-red-500/30'
