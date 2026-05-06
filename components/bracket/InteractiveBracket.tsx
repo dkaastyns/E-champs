@@ -36,11 +36,14 @@ interface InteractiveBracketProps {
 
 interface MatchComponentProps {
   match: LibraryMatch;
-  onMatchClick: (match: LibraryMatch) => void;
-  topParty: Participant;
-  bottomParty: Participant;
-  topWon: boolean;
-  bottomWon: boolean;
+  onMatchClick?: (match: LibraryMatch) => void;
+  onPartyClick?: (party: Participant) => void;
+  onMouseEnter?: (partyId: string) => void;
+  onMouseLeave?: () => void;
+  topParty?: Participant;
+  bottomParty?: Participant;
+  topWon?: boolean;
+  bottomWon?: boolean;
 }
 
 interface SVGWrapperProps {
@@ -64,47 +67,42 @@ export function InteractiveBracket({ matches, categoryId }: InteractiveBracketPr
     }
   };
 
-  const CustomMatchComponent = (props: MatchComponentProps & Record<string, unknown>) => {
-    const {
-      match,
-      onMatchClick,
-      topParty,
-      bottomParty,
-      topWon,
-      bottomWon,
-    } = props;
+    const CustomMatchComponent = (props: MatchComponentProps) => {
+      const { match } = props;
     
-    const domSafeProps = Object.fromEntries(
-      Object.entries(props).filter(([key]) => 
-        !['won', 'hovered', 'highlighted', 'onMouseEnter', 'onMouseLeave'].includes(key)
-      )
-    );
+      const hasBothTeams = match.participants.every((p: Participant) => p.name !== 'TBD');
+      const isCompleted = match.state === 'DONE';
+      const isClickable = hasBothTeams && !isCompleted;
     
-    const hasBothTeams = match.participants.every((p: Participant) => p.name !== 'TBD');
-    const isCompleted = match.state === 'DONE';
-    const isClickable = hasBothTeams && !isCompleted;
-
-    const handleClick = () => {
-      handleMatchClick(match);
+      // Safe wrapper handlers - wrap library handlers to fix TS signature mismatch
+      const wrapperOnClick = isClickable ? (() => handleMatchClick(match)) : undefined;
+      const wrapperOnMouseEnter = () => {
+        if (typeof props.onMouseEnter === 'function') {
+          props.onMouseEnter(match.participants[0]?.id);
+        }
+      };
+      const wrapperOnMouseLeave = () => {
+        if (typeof props.onMouseLeave === 'function') {
+          props.onMouseLeave();
+        }
+      };
+    
+      const wrapperProps: React.HTMLAttributes<HTMLDivElement> = {
+        onClick: wrapperOnClick,
+        onMouseEnter: wrapperOnMouseEnter,
+        onMouseLeave: wrapperOnMouseLeave,
+        className: isClickable ? 'cursor-pointer hover:opacity-80 transition-opacity' : '',
+      };
+    
+      // All library-specific props for Match component
+      const matchProps = { ...props };
+    
+      return (
+        <div {...wrapperProps}>
+          <Match {...matchProps} />
+        </div>
+      );
     };
-
-    return (
-      <div
-        onClick={handleClick}
-        className={isClickable ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}
-      >
-        <Match
-          match={match}
-          onMatchClick={onMatchClick}
-          topParty={topParty}
-          bottomParty={bottomParty}
-          topWon={topWon}
-          bottomWon={bottomWon}
-          {...domSafeProps}
-        />
-      </div>
-    );
-  };
 
   const CustomSVGWrapper = ({ children, ...props }: SVGWrapperProps) => (
     <SVGViewer 

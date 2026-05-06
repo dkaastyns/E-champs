@@ -1,5 +1,4 @@
 import { pool } from "@/lib/db";
-import { unstable_cache } from "next/cache";
 import { Suspense } from "react";
 import {
   Users,
@@ -12,32 +11,24 @@ import {
 import { PageTransition, RevealOnScroll } from "@/components/ui/page-transition";
 import { AdminQuickActions } from "@/components/admin/AdminQuickActions";
 
-const getAdminStats = unstable_cache(
-  async () => {
-    const client = await pool.connect();
-    try {
-      const [tournamentsResult, teamsResult, pendingResult, verifiedResult, withdrawnResult] =
-        await Promise.all([
-          client.query(`SELECT COUNT(*) FROM tournaments`),
-          client.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = false`),
-          client.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'pending' AND "isDeleted" = false`),
-          client.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'verified' AND "isDeleted" = false`),
-          client.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = true`),
-        ]);
-      return {
-        totalTournaments: parseInt(tournamentsResult.rows[0].count),
-        totalTeams: parseInt(teamsResult.rows[0].count),
-        pendingPayments: parseInt(pendingResult.rows[0].count),
-        verifiedTeams: parseInt(verifiedResult.rows[0].count),
-        withdrawnTeams: parseInt(withdrawnResult.rows[0].count),
-      };
-    } finally {
-      client.release();
-    }
-  },
-  ["admin-stats"],
-  { revalidate: 60, tags: ["admin"] }
-);
+async function getAdminStats() {
+  const [tournamentsResult, teamsResult, pendingResult, verifiedResult, withdrawnResult] =
+    await Promise.all([
+      pool.query(`SELECT COUNT(*) FROM tournaments`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = false`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'pending' AND "isDeleted" = false`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'verified' AND "isDeleted" = false`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = true`),
+    ]);
+
+  return {
+    totalTournaments: parseInt(tournamentsResult.rows[0].count),
+    totalTeams:       parseInt(teamsResult.rows[0].count),
+    pendingPayments:  parseInt(pendingResult.rows[0].count),
+    verifiedTeams:    parseInt(verifiedResult.rows[0].count),
+    withdrawnTeams:   parseInt(withdrawnResult.rows[0].count),
+  };
+}
 
 async function AdminStats() {
   const stats = await getAdminStats();

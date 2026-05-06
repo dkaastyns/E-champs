@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 import './TargetCursor.css';
 
@@ -76,6 +77,8 @@ const TargetCursor = ({
     let activeTarget: HTMLElement | null = null;
     let currentLeaveHandler: (() => void) | null = null;
     let resumeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    // NOTE: resetCursorStateInternal was removed - it was unused
 
     const cleanupTarget = (target: HTMLElement) => {
       if (currentLeaveHandler) {
@@ -326,6 +329,55 @@ const TargetCursor = ({
       activeStrengthRef.current.current = 0;
     };
   }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor, isMobile, hoverDuration, parallaxOn]);
+
+  const pathname = usePathname();
+
+  const resetCursorState = useCallback(() => {
+    if (tickerFnRef.current) {
+      gsap.ticker.remove(tickerFnRef.current);
+    }
+    isActiveRef.current = false;
+    targetCornerPositionsRef.current = null;
+    gsap.set(activeStrengthRef.current, { current: 0 });
+    
+    if (cornersRef.current && cursorRef.current) {
+      const corners = Array.from(cornersRef.current);
+      gsap.killTweensOf(corners);
+      const { cornerSize } = constants;
+      const positions = [
+        { x: -cornerSize * 1.5, y: -cornerSize * 1.5 },
+        { x: cornerSize * 0.5, y: -cornerSize * 1.5 },
+        { x: cornerSize * 0.5, y: cornerSize * 0.5 },
+        { x: -cornerSize * 1.5, y: cornerSize * 0.5 }
+      ];
+      const tl = gsap.timeline();
+      corners.forEach((corner, index) => {
+        tl.to(corner, {
+          x: positions[index].x,
+          y: positions[index].y,
+          duration: 0.3,
+          ease: 'power3.out'
+        }, 0);
+      });
+    }
+
+    if (cursorRef.current && spinTl.current) {
+      const currentRotation = gsap.getProperty(cursorRef.current, 'rotation') as number;
+      const normalizedRotation = currentRotation % 360;
+      spinTl.current.kill();
+      spinTl.current = gsap.timeline({ repeat: -1 }).to(cursorRef.current, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+      gsap.to(cursorRef.current, {
+        rotation: normalizedRotation + 360,
+        duration: spinDuration * (1 - normalizedRotation / 360),
+        ease: 'none',
+        onComplete: () => spinTl.current?.restart()
+      });
+    }
+  }, [constants, spinDuration]);
+
+  useEffect(() => {
+    resetCursorState();
+  }, [pathname, resetCursorState]);
 
   useEffect(() => {
     if (isMobile || !cursorRef.current || !spinTl.current) return;
