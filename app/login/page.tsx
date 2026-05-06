@@ -38,7 +38,15 @@ export default function LoginPage() {
         password: values.password,
       });
       if (result.error) {
-        toast.error(result.error.message || 'Invalid credentials');
+        const msg = result.error.message?.toLowerCase();
+
+        if (msg?.includes('invalid') || msg?.includes('wrong')) {
+          toast.error('Invalid email or password');
+        } else if (msg?.includes('not found') || msg?.includes('user')) {
+          toast.error('Account not found');
+        } else {
+          toast.error('Login failed. Please try again.');
+        }
       } else {
         toast.success('Welcome back!');
         router.push('/dashboard');

@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
 import TargetCursor from "@/components/TargetCursor";
+import { Toaster } from "@/components/ui/sonner";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -56,6 +57,7 @@ export default function RootLayout({
           parallaxOn={true}
         />
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );
