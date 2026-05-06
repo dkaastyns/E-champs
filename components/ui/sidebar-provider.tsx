@@ -17,9 +17,9 @@ interface SidebarProviderProps {
   defaultCollapsed?: boolean;
 }
 
-export function SidebarProvider({ 
-  children, 
-  defaultCollapsed = false 
+export function SidebarProvider({
+  children,
+  defaultCollapsed = false
 }: SidebarProviderProps) {
   const [collapsed, setCollapsedState] = useState<boolean>(() => {
     if (typeof window === 'undefined') {
@@ -51,7 +51,7 @@ export function SidebarProvider({
   } as React.CSSProperties;
 
   return (
-    <div style={style}>
+    <div style={style} className="overflow-x-hidden">
       <SidebarContext.Provider value={{ collapsed, setCollapsed, toggleSidebar }}>
         {children}
       </SidebarContext.Provider>

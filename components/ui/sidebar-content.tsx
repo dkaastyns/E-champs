@@ -9,20 +9,14 @@ interface SidebarContentProps {
 
 export function SidebarContent({ children }: SidebarContentProps) {
   return (
-    <main 
-      className="flex-1 will-change-[margin-left]"
-      style={{
-        marginLeft: 'var(--sidebar-width)',
-        transition: 'margin-left 500ms cubic-bezier(0.4, 0, 0.2, 1)'
-      }}
-    >
+    <main className="flex-1 min-w-0 overflow-hidden">
       <div className="sticky top-0 z-40 bg-[#080808]/95 backdrop-blur-sm border-b border-[#1a1a1a]">
-        <div className="flex items-center gap-4 h-16 px-8">
+        <div className="flex items-center gap-4 h-16 px-4 md:px-8">
           <SidebarTrigger />
         </div>
       </div>
-      
-      <div className="p-8">
+
+      <div className="p-4 md:p-8">
         {children}
       </div>
     </main>

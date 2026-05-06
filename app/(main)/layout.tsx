@@ -30,7 +30,7 @@ export default async function MainLayout({
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen bg-[#080808] flex">
+      <div className="min-h-screen bg-[#080808] overflow-x-hidden">
         <UserSidebar user={session.user} />
         <SidebarContent>
           {children}
