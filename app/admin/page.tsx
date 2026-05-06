@@ -11,26 +11,22 @@ import { PageTransition, RevealOnScroll } from "@/components/ui/page-transition"
 import { AdminQuickActions } from "@/components/admin/AdminQuickActions";
 
 async function getAdminStats() {
-  const client = await pool.connect();
-  try {
-    const [tournamentsResult, teamsResult, pendingResult, verifiedResult, withdrawnResult] =
-      await Promise.all([
-        client.query(`SELECT COUNT(*) FROM tournaments`),
-        client.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = false`),
-        client.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'pending' AND "isDeleted" = false`),
-        client.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'verified' AND "isDeleted" = false`),
-        client.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = true`),
-      ]);
-    return {
-      totalTournaments: parseInt(tournamentsResult.rows[0].count),
-      totalTeams:       parseInt(teamsResult.rows[0].count),
-      pendingPayments:  parseInt(pendingResult.rows[0].count),
-      verifiedTeams:    parseInt(verifiedResult.rows[0].count),
-      withdrawnTeams:   parseInt(withdrawnResult.rows[0].count),
-    };
-  } finally {
-    client.release();
-  }
+  const [tournamentsResult, teamsResult, pendingResult, verifiedResult, withdrawnResult] =
+    await Promise.all([
+      pool.query(`SELECT COUNT(*) FROM tournaments`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = false`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'pending' AND "isDeleted" = false`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "paymentStatus" = 'verified' AND "isDeleted" = false`),
+      pool.query(`SELECT COUNT(*) FROM registered_teams WHERE "isDeleted" = true`),
+    ]);
+
+  return {
+    totalTournaments: parseInt(tournamentsResult.rows[0].count),
+    totalTeams:       parseInt(teamsResult.rows[0].count),
+    pendingPayments:  parseInt(pendingResult.rows[0].count),
+    verifiedTeams:    parseInt(verifiedResult.rows[0].count),
+    withdrawnTeams:   parseInt(withdrawnResult.rows[0].count),
+  };
 }
 
 export default async function AdminDashboard() {
