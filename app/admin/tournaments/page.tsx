@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { pool } from "@/lib/db";
 import TournamentsClient from "@/components/admin/TournamentsClient";
 
