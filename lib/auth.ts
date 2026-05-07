@@ -9,6 +9,14 @@ const pool = new Pool({
 
 export const auth = betterAuth({
   database: pool,
+  baseURL: {
+    allowedHosts: [
+      "*.vercel.app",
+      "localhost:*",
+    ],
+    protocol: "auto",
+    fallback: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  },
   emailAndPassword: {
     enabled: true,
   },
