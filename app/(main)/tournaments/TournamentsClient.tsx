@@ -25,8 +25,8 @@ export default function TournamentsClient({ initialTournaments }: { initialTourn
 
   // Memfilter daftar turnamen berdasarkan teks pencarian
   const filteredTournaments = initialTournaments.filter((tournament) =>
-    tournament.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tournament.description.toLowerCase().includes(searchQuery.toLowerCase())
+    (tournament.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (tournament.description || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
