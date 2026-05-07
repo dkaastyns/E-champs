@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { pool } from "@/lib/db";
