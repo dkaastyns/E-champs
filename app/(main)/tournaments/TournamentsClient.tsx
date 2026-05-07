@@ -79,14 +79,14 @@ export default function TournamentsClient({ initialTournaments }: { initialTourn
                   <div className="text-xs text-gray-500">Max Teams</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-bold text-[#6520EE]">{formatCompact(tournament.registrationFee)}</div>
+                  <div className="text-lg font-bold text-[#6520EE]">{formatCompact(Number(tournament.registrationFee))}</div>
                   <div className="text-xs text-gray-500">Entry Fee</div>
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t border-[#1a1a1a] mt-auto">
                 <div className="text-sm text-gray-400">
-                  Starts: {formatDate(new Date(tournament.tournamentStartDate), 'long')}
+                  Starts: {tournament.tournamentStartDate ? formatDate(new Date(tournament.tournamentStartDate), 'long') : 'TBA'}
                 </div>
                 <Link
                   href={`/tournaments/${tournament.id}/register`}
