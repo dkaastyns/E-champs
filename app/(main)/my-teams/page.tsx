@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { toast } from 'sonner';
-import { useTeams, useWithdrawTeam } from '@/lib/hooks';
+import { useTeams, useWithdrawTeam, useMarkTeamAsPaid } from '@/lib/hooks';
 import { useState } from 'react';
 import type { Team } from '@/lib/api';
 import {
@@ -23,6 +23,12 @@ interface DialogState {
   teamName: string;
 }
 
+interface PaidDialogState {
+  isOpen: boolean;
+  teamId: number | null;
+  teamName: string;
+}
+
 /** Status badge color mapping */
 const statusColors: Record<string, string> = {
   verified: 'bg-[#2BE900]/20 text-[#2BE900]',
@@ -32,7 +38,9 @@ const statusColors: Record<string, string> = {
 export default function MyTeamsPage() {
   const { data: teams = [], isLoading } = useTeams();
   const withdrawTeamMutation = useWithdrawTeam();
+  const markTeamAsPaidMutation = useMarkTeamAsPaid();
   const [dialog, setDialog] = useState<DialogState>({ isOpen: false, teamId: null, teamName: '' });
+  const [paidDialog, setPaidDialog] = useState<PaidDialogState>({ isOpen: false, teamId: null, teamName: '' });
 
   function openWithdrawDialog(team: Team) {
     setDialog({ isOpen: true, teamId: team.id, teamName: team.teamName });
@@ -40,6 +48,14 @@ export default function MyTeamsPage() {
 
   function closeDialog() {
     setDialog({ isOpen: false, teamId: null, teamName: '' });
+  }
+
+  function openPaidDialog(team: Team) {
+    setPaidDialog({ isOpen: true, teamId: team.id, teamName: team.teamName });
+  }
+
+  function closePaidDialog() {
+    setPaidDialog({ isOpen: false, teamId: null, teamName: '' });
   }
 
   const handleWithdraw = async () => {
@@ -50,6 +66,18 @@ export default function MyTeamsPage() {
         loading: 'Withdrawing team...',
         success: () => { closeDialog(); return 'Team withdrawn successfully'; },
         error: (err: Error) => { closeDialog(); return err.message || 'Failed to withdraw team'; },
+      }
+    );
+  };
+
+  const handleMarkAsPaid = async () => {
+    if (!paidDialog.teamId) return;
+    toast.promise(
+      markTeamAsPaidMutation.mutateAsync(paidDialog.teamId),
+      {
+        loading: 'Marking team as paid...',
+        success: () => { closePaidDialog(); return 'Team marked as paid. Awaiting admin verification.'; },
+        error: (err: Error) => { closePaidDialog(); return err.message || 'Failed to mark team as paid'; },
       }
     );
   };
@@ -110,13 +138,24 @@ export default function MyTeamsPage() {
                       Registered: {new Date(team.createdAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <button
-                    onClick={() => openWithdrawDialog(team)}
-                    disabled={withdrawTeamMutation.isPending}
-                    className="btn-press bg-orange-500/20 text-orange-500 hover:bg-orange-500/30 px-4 py-2 font-[family-name:var(--font-heading)] text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]"
-                  >
-                    {withdrawTeamMutation.isPending ? 'WITHDRAWING...' : 'WITHDRAW'}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {team.paymentStatus === 'pending' && (
+                      <button
+                        onClick={() => openPaidDialog(team)}
+                        disabled={markTeamAsPaidMutation.isPending}
+                        className="btn-press bg-[#6520EE]/20 text-[#6520EE] hover:bg-[#6520EE]/30 px-4 py-2 font-[family-name:var(--font-heading)] text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_12px_rgba(101,32,238,0.3)]"
+                      >
+                        {markTeamAsPaidMutation.isPending ? 'PROCESSING...' : 'MARK AS PAID'}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => openWithdrawDialog(team)}
+                      disabled={withdrawTeamMutation.isPending}
+                      className="btn-press bg-orange-500/20 text-orange-500 hover:bg-orange-500/30 px-4 py-2 font-[family-name:var(--font-heading)] text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]"
+                    >
+                      {withdrawTeamMutation.isPending ? 'WITHDRAWING...' : 'WITHDRAW'}
+                    </button>
+                  </div>
                 </div>
               </div>
             </RevealOnScroll>
@@ -164,6 +203,32 @@ export default function MyTeamsPage() {
               className="bg-red-500/20 hover:bg-red-500/30 text-red-500 border border-red-500/50"
             >
               {withdrawTeamMutation.isPending ? 'Withdrawing...' : 'Withdraw Team'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Mark as Paid confirmation dialog */}
+      <AlertDialog open={paidDialog.isOpen} onOpenChange={(open) => !open && closePaidDialog()}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Mark Team as Paid?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Confirm you have completed the payment for &quot;{paidDialog.teamName}&quot;.
+              <br /><br />
+              This will notify the admin for verification.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={closePaidDialog} disabled={markTeamAsPaidMutation.isPending}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleMarkAsPaid}
+              disabled={markTeamAsPaidMutation.isPending}
+              className="bg-[#6520EE]/20 hover:bg-[#6520EE]/30 text-[#6520EE] border border-[#6520EE]/50"
+            >
+              {markTeamAsPaidMutation.isPending ? 'Processing...' : 'Confirm'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

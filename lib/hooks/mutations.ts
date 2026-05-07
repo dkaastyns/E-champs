@@ -3,6 +3,7 @@ import {
   createTeam,
   withdrawTeam,
   deleteTeam,
+  markTeamAsPaid,
   createTournament,
   updateTournament,
   deleteTournament,
@@ -87,6 +88,13 @@ export function useRecordMatchResult(options?: Omit<UseMutationOptions<RecordMat
 export function useGenerateBracket(options?: Omit<UseMutationOptions<GenerateBracketResponse, Error, GenerateBracketInput>, 'mutationFn'>) {
   return useMutation({
     mutationFn: generateBracket,
+    ...options,
+  });
+}
+
+export function useMarkTeamAsPaid(options?: Omit<UseMutationOptions<void, Error, number>, 'mutationFn'>) {
+  return useMutation({
+    mutationFn: markTeamAsPaid,
     ...options,
   });
 }
