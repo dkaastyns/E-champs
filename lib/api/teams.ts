@@ -133,3 +133,16 @@ export async function fetchTeamMemberCount(teamId: number): Promise<number> {
   const data = await response.json();
   return data.count;
 }
+
+export async function markTeamAsPaid(teamId: number): Promise<void> {
+  const response = await fetch(`/api/teams/${teamId}/paid`, {
+    method: 'POST',
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Failed to mark team as paid');
+  }
+
+  queryClient.invalidateQueries({ queryKey: queryKeys.teams.list() });
+}
